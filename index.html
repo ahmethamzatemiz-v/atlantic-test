@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <main class="todo-app">
+    <header>
+      <p class="eyebrow">ONE THING AT A TIME</p>
+      <h1>My to-do list</h1>
+      <p class="subtitle">A little space to organize your day.</p>
+    </header>
+
+    <form id="task-form">
+      <label for="task-input">New task</label>
+      <div class="input-row">
+        <input id="task-input" name="task" type="text" placeholder="What needs to get done?" maxlength="300" required autocomplete="off">
+        <button class="add-button" type="submit">Add task</button>
+      </div>
+    </form>
+
+    <section aria-label="Tasks">
+      <p id="empty-state">Your list is clear. Add a task to get started.</p>
+      <ul id="task-list"></ul>
+    </section>
+    <p id="task-status" class="sr-only" role="status" aria-live="polite"></p>
+    <footer>Tasks stay here until you refresh or close the page.</footer>
+  </main>
+</body>
+</html>
