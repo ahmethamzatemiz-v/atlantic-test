@@ -3,6 +3,37 @@ const input = document.querySelector('#task-input');
 const taskList = document.querySelector('#task-list');
 const emptyState = document.querySelector('#empty-state');
 const status = document.querySelector('#task-status');
+const filterButtons = document.querySelectorAll('.filter-button');
+
+let currentFilter = 'all';
+
+function matchesFilter(task) {
+  if (currentFilter === 'active') {
+    return !task.classList.contains('completed');
+  }
+  if (currentFilter === 'completed') {
+    return task.classList.contains('completed');
+  }
+  return true;
+}
+
+function applyFilter() {
+  for (const task of taskList.children) {
+    task.hidden = !matchesFilter(task);
+  }
+}
+
+filterButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    currentFilter = button.dataset.filter;
+    filterButtons.forEach((other) => {
+      const isActive = other === button;
+      other.classList.toggle('is-active', isActive);
+      other.setAttribute('aria-pressed', String(isActive));
+    });
+    applyFilter();
+  });
+});
 
 input.addEventListener('input', () => input.setCustomValidity(''));
 
@@ -38,6 +69,7 @@ form.addEventListener('submit', (event) => {
   checkbox.addEventListener('change', () => {
     task.classList.toggle('completed', checkbox.checked);
     status.textContent = checkbox.checked ? 'Task completed.' : 'Task marked incomplete.';
+    task.hidden = !matchesFilter(task);
   });
 
   deleteButton.addEventListener('click', () => {
@@ -55,6 +87,7 @@ form.addEventListener('submit', (event) => {
   label.append(checkbox, taskText);
   task.append(label, deleteButton);
   taskList.append(task);
+  task.hidden = !matchesFilter(task);
   emptyState.hidden = true;
   input.value = '';
   input.focus();
